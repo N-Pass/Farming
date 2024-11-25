@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
 
     public float moveSpeed;
-    public InputActionReference moveInput;
+    public InputActionReference moveInput, actionInput;
 
     
 
@@ -32,7 +32,19 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = Vector3.one;
         }
-        
+
+        if (actionInput.action.WasPressedThisFrame())
+            UseTool();
+
         anim.SetFloat(SPEED, theRB.linearVelocity.magnitude);
+    }
+
+    private void UseTool()
+    {
+        GrowBlock block = null;
+
+        block = FindFirstObjectByType<GrowBlock>();
+
+        block.PloughSoil();
     }
 }
