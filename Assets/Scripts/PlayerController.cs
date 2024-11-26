@@ -3,6 +3,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public enum ToolType
+    {
+        plough,
+        wateringCan,
+        seeds,
+        basket
+    }
+
+    public ToolType currentTool;
+
     private readonly string SPEED = "speed";
 
     private Rigidbody2D theRB;
@@ -11,12 +21,15 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     public InputActionReference moveInput, actionInput;
 
-    
-
     private void Awake()
     {
         theRB = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+    }
+
+    private void Start()
+    {
+        UIController.instance.SwitchTool((int)currentTool);
     }
 
     private void Update()
@@ -33,6 +46,43 @@ public class PlayerController : MonoBehaviour
             transform.localScale = Vector3.one;
         }
 
+        bool hasSwitchedTool = false;
+
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            currentTool++;
+            if((int)currentTool >= 4)
+            {
+                currentTool = ToolType.plough;
+            }
+
+            hasSwitchedTool = true;
+        }
+
+        if (Keyboard.current.digit1Key.wasPressedThisFrame)
+        {
+            currentTool = ToolType.plough;
+            hasSwitchedTool = true;
+        }
+        if (Keyboard.current.digit2Key.wasPressedThisFrame)
+        {
+            currentTool = ToolType.wateringCan;
+            hasSwitchedTool = true;
+        }
+        if (Keyboard.current.digit3Key.wasPressedThisFrame)
+        {
+            currentTool = ToolType.seeds;
+            hasSwitchedTool = true;
+        }
+        if (Keyboard.current.digit4Key.wasPressedThisFrame)
+        {
+            currentTool = ToolType.basket;
+            hasSwitchedTool = true;
+        }
+
+        if (hasSwitchedTool == true)
+            UIController.instance.SwitchTool((int)currentTool);
+
         if (actionInput.action.WasPressedThisFrame())
             UseTool();
 
@@ -45,6 +95,20 @@ public class PlayerController : MonoBehaviour
 
         block = FindFirstObjectByType<GrowBlock>();
 
-        block.PloughSoil();
+        if(block != null)
+        {
+            switch (currentTool)
+            {
+                case ToolType.plough:
+                    block.PloughSoil();
+                    break;
+                case ToolType.wateringCan:
+                    break;
+                case ToolType.seeds:
+                    break;
+                case ToolType.basket:
+                    break;
+            }
+        }
     }
 }
