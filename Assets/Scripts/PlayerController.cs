@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     public enum ToolType
     {
         plough,
@@ -31,8 +32,19 @@ public class PlayerController : MonoBehaviour
     
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         theRB = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+
     }
 
     private void Start()

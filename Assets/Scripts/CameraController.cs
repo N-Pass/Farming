@@ -11,11 +11,12 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        target = PlayerController.instance.transform;
         cam = GetComponent<Camera>();
         halfHeigth = cam.orthographicSize;
         halfWidth = cam.orthographicSize * cam.aspect;
         
-        target = FindAnyObjectByType<PlayerController>().transform;
+       
 
         clampMin.SetParent(null);
         clampMax.SetParent(null);
