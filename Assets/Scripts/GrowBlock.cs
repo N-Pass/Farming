@@ -63,7 +63,7 @@ public class GrowBlock : MonoBehaviour
 
     public void WaterSoil()
     {
-        if (!preventUse) return;
+        if (preventUse) return;
         isWatered = true;
         SetSoilSprite();
     }
