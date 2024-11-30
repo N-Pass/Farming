@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     public Transform toolIndicator;
     public float toolRange = 3f;
+
+    public CropController.CropType seedCropType;
     
     private void Awake()
     {
@@ -54,6 +56,18 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if(UIController.instance != null)
+        {
+            if(UIController.instance.theIC != null)
+            {
+                if(UIController.instance.theIC.gameObject.activeSelf == true)
+                {
+                    theRB.linearVelocity = Vector2.zero;
+                    return;
+                }
+            }
+        }
+
         if(toolWaitCounter > 0)
         {
             toolWaitCounter -= Time.deltaTime;
@@ -165,7 +179,11 @@ public class PlayerController : MonoBehaviour
                     break;
                 case ToolType.seeds:
 
-                    block.PlantCrop();
+                    if (CropController.instance.GetCropInfo(seedCropType).seedAmount > 0)
+                    {
+                        block.PlantCrop(seedCropType);
+                        
+                    }
 
                     break;
                 case ToolType.basket:
@@ -175,5 +193,10 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void SwitchSeed(CropController.CropType newSeed)
+    {
+        seedCropType = newSeed;
     }
 }

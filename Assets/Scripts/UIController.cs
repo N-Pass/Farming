@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -7,6 +9,9 @@ public class UIController : MonoBehaviour
 
     public GameObject[] toolbarActivatorIcons;
     public TMP_Text timeText;
+
+    public InventoryController theIC;
+    public Image seedImage;
 
     private void Awake()
     {
@@ -36,6 +41,14 @@ public class UIController : MonoBehaviour
         toolbarActivatorIcons[selected].SetActive(true);
     }
 
+    private void Update()
+    {
+        if(Keyboard.current.iKey.wasPressedThisFrame)
+        {
+            theIC.OpenClose();
+        }
+    }
+
     public void UpdateTimeText(float currentTime)
     {
         if (currentTime < 12)
@@ -58,5 +71,10 @@ public class UIController : MonoBehaviour
         {
             timeText.text = Mathf.FloorToInt(currentTime - 24) + "AM";
         }
+    }
+
+    public void SwitchSeed(CropController.CropType crop)
+    {
+        seedImage.sprite = CropController.instance.GetCropInfo(crop).seedType;
     }
 }

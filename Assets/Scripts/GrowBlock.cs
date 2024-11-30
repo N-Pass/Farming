@@ -27,7 +27,9 @@ public class GrowBlock : MonoBehaviour
     public bool isWatered;
     public bool preventUse;
 
-    private Vector2Int gridPosition; 
+    private Vector2Int gridPosition;
+    public CropController.CropType cropType;
+    public float growFailChance;
 
     private void Update()
     {
@@ -72,32 +74,36 @@ public class GrowBlock : MonoBehaviour
         SetSoilSprite();
     }
 
-    public void PlantCrop()
+    public void PlantCrop(CropController.CropType cropToPlant)
     {
         if(currentStage == GrowthStage.ploughed && isWatered && !preventUse)
         {
             currentStage = GrowthStage.planted;
+            cropType = cropToPlant;
+
+            growFailChance = CropController.instance.GetCropInfo(cropType).growthFailChance;
+            CropController.instance.UseSeed(cropToPlant);
             UpdateCropSprite();
         }
     }
 
     public void UpdateCropSprite()
     {
+        CropInfo activeCrop = CropController.instance.GetCropInfo(cropType);
+
         switch (currentStage)
         {
             case GrowthStage.planted:
-                cropSR.sprite = cropPlanted;
+                cropSR.sprite = activeCrop.planted;
                 break;
             case GrowthStage.growing1:
-                cropSR.sprite = cropGrowing1;
+                cropSR.sprite = activeCrop.growStage1;
                 break;
             case GrowthStage.growing2:
-                cropSR.sprite = cropGrowing2;
+                cropSR.sprite = activeCrop.growStage2;
                 break;
             case GrowthStage.ripe:
-                cropSR.sprite = cropRipe;
-                break;
-            default:
+                cropSR.sprite = activeCrop.ripe;
                 break;
         }
 
@@ -125,6 +131,7 @@ public class GrowBlock : MonoBehaviour
             currentStage = GrowthStage.ploughed;
             SetSoilSprite();
             cropSR.sprite = null;
+            CropController.instance.AddCrop(cropType);
         }
     }
 
