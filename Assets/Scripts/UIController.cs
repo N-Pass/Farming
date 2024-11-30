@@ -11,7 +11,11 @@ public class UIController : MonoBehaviour
     public TMP_Text timeText;
 
     public InventoryController theIC;
+    public ShopController theShop;
+
     public Image seedImage;
+
+    public TMP_Text moneyText;
 
     private void Awake()
     {
@@ -30,6 +34,21 @@ public class UIController : MonoBehaviour
     {
         SwitchTool(0);
     }
+    private void Update()
+    {
+        if(Keyboard.current.iKey.wasPressedThisFrame)
+        {
+            theIC.OpenClose();
+        }
+
+#if UNITY_EDITOR
+        if (Keyboard.current.bKey.wasPressedThisFrame)
+        {
+            theShop.OpenClose();
+        }
+
+#endif
+    }
 
     public void SwitchTool(int selected)
     {
@@ -41,13 +60,6 @@ public class UIController : MonoBehaviour
         toolbarActivatorIcons[selected].SetActive(true);
     }
 
-    private void Update()
-    {
-        if(Keyboard.current.iKey.wasPressedThisFrame)
-        {
-            theIC.OpenClose();
-        }
-    }
 
     public void UpdateTimeText(float currentTime)
     {
@@ -76,5 +88,10 @@ public class UIController : MonoBehaviour
     public void SwitchSeed(CropController.CropType crop)
     {
         seedImage.sprite = CropController.instance.GetCropInfo(crop).seedType;
+    }
+
+    public void UpdateMoneyText(float currentMoney)
+    {
+        moneyText.text = "$" + currentMoney;
     }
 }

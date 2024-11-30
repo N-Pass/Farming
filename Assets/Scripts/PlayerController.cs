@@ -52,15 +52,17 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         UIController.instance.SwitchTool((int)currentTool);
+
+        UIController.instance.SwitchSeed(seedCropType);
     }
 
     private void Update()
     {
         if(UIController.instance != null)
         {
-            if(UIController.instance.theIC != null)
+            if(UIController.instance.theIC != null || UIController.instance.theShop != null)
             {
-                if(UIController.instance.theIC.gameObject.activeSelf == true)
+                if(UIController.instance.theIC.gameObject.activeSelf == true || UIController.instance.theShop.gameObject.activeSelf == true)
                 {
                     theRB.linearVelocity = Vector2.zero;
                     return;
