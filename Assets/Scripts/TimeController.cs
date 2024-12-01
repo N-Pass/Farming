@@ -68,5 +68,6 @@ public class TimeController : MonoBehaviour
     {
         timeActive = true;
         currentTime = dayStarting;
+        AudioManager.instance.PlaySFX(6);
     }
 }

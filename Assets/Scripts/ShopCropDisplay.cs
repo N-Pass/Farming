@@ -25,9 +25,11 @@ public class ShopCropDisplay : MonoBehaviour
         
         if(info.cropAmount > 0)
         {
-            CurrencyController.instace.AddMoney(info.cropAmount * info.cropPrice);
+            CurrencyController.instance.AddMoney(info.cropAmount * info.cropPrice);
             CropController.instance.RemoveCrop(crop);
             UpdateDisplay();
+
+            AudioManager.instance.PlaySFXPitchAdjusted(5);
         }
     }
 }

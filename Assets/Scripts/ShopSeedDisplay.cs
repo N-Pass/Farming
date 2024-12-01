@@ -23,13 +23,15 @@ public class ShopSeedDisplay : MonoBehaviour
     {
         CropInfo info = CropController.instance.GetCropInfo(crop);
 
-        if(CurrencyController.instace.CheckMoney(info.seedPrice * amount))
+        if(CurrencyController.instance.CheckMoney(info.seedPrice * amount))
         {
             CropController.instance.AddSeed(crop, amount);
 
-            CurrencyController.instace.SpendMoney(info.seedPrice * amount);
+            CurrencyController.instance.SpendMoney(info.seedPrice * amount);
 
             UpdateDisplay();
+
+            AudioManager.instance.PlaySFXPitchAdjusted(5);
         }
     }
 }

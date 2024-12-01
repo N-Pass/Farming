@@ -60,9 +60,27 @@ public class PlayerController : MonoBehaviour
     {
         if(UIController.instance != null)
         {
-            if(UIController.instance.theIC != null || UIController.instance.theShop != null)
+            if(UIController.instance.theIC != null)
             {
-                if(UIController.instance.theIC.gameObject.activeSelf == true || UIController.instance.theShop.gameObject.activeSelf == true)
+                if(UIController.instance.theIC.gameObject.activeSelf == true)
+                {
+                    theRB.linearVelocity = Vector2.zero;
+                    return;
+                }
+            }
+
+            if (UIController.instance.theShop != null)
+            {
+                if (UIController.instance.theShop.gameObject.activeSelf == true)
+                {
+                    theRB.linearVelocity = Vector2.zero;
+                    return;
+                }
+            }
+
+            if (UIController.instance.pauseScreen != null)
+            {
+                if (UIController.instance.pauseScreen.gameObject.activeSelf == true)
                 {
                     theRB.linearVelocity = Vector2.zero;
                     return;

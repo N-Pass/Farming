@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class CurrencyController : MonoBehaviour
 {
-    public static CurrencyController instace;
+    public static CurrencyController instance;
 
     public float currentMoney;
 
     private void Awake()
     {
-        if(instace == null)
+        if(instance == null)
         {
-            instace = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
